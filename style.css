@@ -60,9 +60,10 @@ h3 span a {
     border-radius: 20px;
     display: flex;
     justify-content: flex-end;
-    padding: 30px;
+    padding: 20px;
     font-size: 30px;
     align-items: center;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
 }
 
 .button-container { 
@@ -82,4 +83,5 @@ h3 span a {
     border-radius: 20px;
     font-size: 21px;
     flex: 1 0 21%;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
