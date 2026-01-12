@@ -26,6 +26,8 @@ function operate(operator, num1, num2) {
 
 function updateNumbers() { 
 
+    let resultFromOperate = null;
+    let waitingForNewNumber = false;     
     const displayContainer = document.querySelector(".display-container"); 
     const buttonContainer = document.querySelector(".button-container"); 
 
@@ -33,6 +35,7 @@ function updateNumbers() {
 
         const target = event.target; 
         let value = target.textContent;
+        const isAllAvailable = (num1 !== null && num2 !== null && operator !== "");
 
         if (!target.classList.contains("btn")) return;
 
@@ -44,45 +47,66 @@ function updateNumbers() {
             return;
         }
 
-        if (target.classList.contains("equals-to")) { 
-            if (num1 !== null && num2 !== null && operator !== "") { 
-                const result = operate(operator, parseFloat(num1), parseFloat(num2))
 
-                displayContainer.textContent = result; 
-                console.log(result)
-                num1 = result; 
-                num2 = null; 
-                operator = "";
-                return;
+        if (isAllAvailable && target.classList.contains("operator")) {
+
+            resultFromOperate = operate(operator, parseFloat(num1), parseFloat(num2));
+
+            num1 = resultFromOperate; 
+            num2 = null; 
+            operator = value;
+            displayContainer.textContent = resultFromOperate;
+            waitingForNewNumber = true;
+            return;
+        }  
+        else if (target.classList.contains("operator")) {  
+
+            waitingForNewNumber = true;
+            operator = value; 
+
+        }        
+
+
+        if (target.classList.contains("equals-to") && isAllAvailable) { 
+
+            resultFromOperate = operate(operator, parseFloat(num1), parseFloat(num2));
+            displayContainer.textContent = resultFromOperate; 
+
+            if (displayContainer.textContent == "NaN") {
+                displayContainer.textContent = "Press AC"
             }
+
+            num1 = resultFromOperate; 
+            num2 = null; 
+            operator = "";
+            resultFromOperate = null;
+            waitingForNewNumber = true;
+            return;
         }
 
         if (target.classList.contains("number")) { 
-            if (operator) { 
-                displayContainer.textContent == "0" 
-                ? displayContainer.textContent = value
-                : displayContainer.textContent += value
 
-                num2 = displayContainer.textContent
+            if (value == "." && displayContainer.textContent.includes('.')) {
+                return;
+            }
+
+            if (waitingForNewNumber) { 
+                displayContainer.textContent = value;
+                waitingForNewNumber = false; 
             } 
             else { 
-                displayContainer.textContent == "0"
-                ? displayContainer.textContent = value
-                : displayContainer.textContent += value
+                displayContainer.textContent === "0" 
+                ? displayContainer.textContent = value 
+                : displayContainer.textContent += value;
+            }
 
-                num1 = displayContainer.textContent
-            }      
+
+            if (!operator) { 
+                num1 = displayContainer.textContent;
+            } else { 
+                num2 = displayContainer.textContent;
+            }
         } 
-
-        if (target.classList.contains("operator")) {  
-            displayContainer.textContent = "0"
-            operator = value; 
-        }
-    
-
-        console.log(num1)
-        console.log(num2)
-        console.log(operator)
 
     })
 
