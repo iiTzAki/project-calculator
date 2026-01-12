@@ -89,6 +89,15 @@ h3 span a {
     font-family: Impact, 'Arial Narrow Bold', sans-serif;
 }
 
+.btn:hover { 
+    background-color: rgba(250, 250, 250, 0.719);
+}
+
 .operator { 
-    background-color: rgba(224, 224, 89, 0.856)    ;
+    background-color: rgba(218, 218, 44, 0.808);
+}
+
+.operator:hover { 
+    background-color: rgba(255, 255, 98, 0.808);
+    font-size: 25px;
 }
