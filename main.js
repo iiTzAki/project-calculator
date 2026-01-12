@@ -17,57 +17,30 @@ function operate(operator, num1, num2) {
             return add(num1, num2); 
         case '-': 
             return subtract(num1, num2); 
-        case 'x': 
+        case '×': 
             return multiply(num1, num2); 
-        case '/': 
+        case '÷': 
             return divide(num1, num2)
     }
 }
 
-function updateNumbers() { 
+function handleCalculator() { 
 
     let resultFromOperate = null;
     let waitingForNewNumber = false;     
     const displayContainer = document.querySelector(".display-container"); 
     const buttonContainer = document.querySelector(".button-container"); 
 
-    buttonContainer.addEventListener("click", (event) => { 
+    const manageClear = () => {
+        displayContainer.textContent = "0"; 
+        num1 = null; 
+        num2 = null;
+        operator = ""; 
+        return;
+    }
 
-        const target = event.target; 
-        let value = target.textContent;
-        const isAllAvailable = (num1 !== null && num2 !== null && operator !== "");
-
-        if (!target.classList.contains("btn")) return;
-
-        if (target.classList.contains("clear")) { 
-            displayContainer.textContent = "0"; 
-            num1 = null; 
-            num2 = null;
-            operator = ""; 
-            return;
-        }
-
-
-        if (isAllAvailable && target.classList.contains("operator")) {
-
-            resultFromOperate = operate(operator, parseFloat(num1), parseFloat(num2));
-
-            num1 = resultFromOperate; 
-            num2 = null; 
-            operator = value;
-            displayContainer.textContent = resultFromOperate;
-            waitingForNewNumber = true;
-            return;
-        }  
-        else if (target.classList.contains("operator")) {  
-
-            waitingForNewNumber = true;
-            operator = value; 
-
-        }        
-
-
-        if (target.classList.contains("equals-to") && isAllAvailable) { 
+    const manageEqualsTo = () => { 
+        if (num1 !== null && num2 !== null && operator !== "") { 
 
             resultFromOperate = operate(operator, parseFloat(num1), parseFloat(num2));
             displayContainer.textContent = resultFromOperate; 
@@ -83,6 +56,41 @@ function updateNumbers() {
             waitingForNewNumber = true;
             return;
         }
+    }
+
+    const calculate = () => { 
+        return operate(operator, parseFloat(num1), parseFloat(num2))
+    }
+
+    buttonContainer.addEventListener("click", (event) => { 
+
+        const target = event.target; 
+        let value = target.textContent;
+
+        if (!target.classList.contains("btn")) return;
+
+        if (target.classList.contains("clear")) return manageClear();
+        if (target.classList.contains("equals-to")) return manageEqualsTo();
+
+
+        if (num1 !== null && num2 !== null && operator !== ""
+             && target.classList.contains("operator")) {
+
+            resultFromOperate = calculate();
+
+            num1 = resultFromOperate; 
+            num2 = null; 
+            operator = value;
+            displayContainer.textContent = resultFromOperate;
+            waitingForNewNumber = true;
+            return;
+        }  
+        else if (target.classList.contains("operator")) {  
+
+            waitingForNewNumber = true;
+            operator = value; 
+
+        }        
 
         if (target.classList.contains("number")) { 
 
@@ -112,4 +120,4 @@ function updateNumbers() {
 
 }
 
-updateNumbers()
+handleCalculator()
