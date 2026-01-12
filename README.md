@@ -33,3 +33,8 @@ This is a project from "Odin Project" in which we will be making a working Calcu
 --- 
 
 ### Calculator Preview
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/0714d86f-ebcb-4b02-8a1c-9acc966ad3d0" width="500">
+</div>
+
+
